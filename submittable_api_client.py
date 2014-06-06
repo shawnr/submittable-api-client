@@ -31,38 +31,43 @@ class SubmittableAPIClient():
     """
 
     def __init__(self, username=None, apitoken=None, per_page=20):
-        if not self.username or not self.apitoken:
+        if not username or not apitoken:
             raise Exception('No username/apitoken credentials supplied.')
         self.username = username
         self.apitoken = apitoken
         self.per_page = 20
         self.start_page = 1
 
-    def categories(self, page=None, per_page=None):
-        """Returns a list of Categories."""
-        page = page or self.start_page
-        per_page = per_page or self.per_page
+    def categories(self):
+        """Returns a list of Categories. Allows no pagination."""
 
-    def category(self, id=None, page=None, per_page=None):
+        query_uri = "%s%s" % (BASE_API_URI, CATEGORIES_URI)
+        response = requests.get(query_uri, auth=(self.username, self.apitoken))
+
+        return SubmittableAPIResponse(response)
+
+    def category(self, cat_id=None):
         """ Returns information about a single Category."""
-        if not id:
+        if not cat_id:
             raise Exception('No Category ID specified.')
 
-        page = page or self.start_page
-        per_page = per_page or self.per_page
+        query_uri = "%s%s%s" % (BASE_API_URI, CATEGORIES_URI, cat_id)
+        response = requests.get(query_uri, auth=(self.username, self.apitoken))
+
+        return SubmittableAPIResponse(response)
 
 
-    def category_form(self, id=None, page=None, per_page=None):
+    def category_form(self, cat_id=None, page=None, per_page=None):
         """ Returns the form info associated with the Category."""
-        if not id:
+        if not cat_id:
             raise Exception('No Category ID specified.')
         page = page or self.start_page
         per_page = per_page or self.per_page
 
 
-    def category_submitters(self, id=None, page=None, per_page=None):
+    def category_submitters(self, cat_id=None, page=None, per_page=None):
         """ Returns user records that have submitted this form. """
-        if not id:
+        if not cat_id:
             raise Exception('No Category ID specified.')
         per_page = per_page or self.per_page
         per_page = per_page or self.per_page
@@ -80,10 +85,8 @@ class SubmittableAPIResponse():
         data = response.json()
         self.current_page = data.get('current_page', None)
         self.total_pages = data.get('total_pages', None)
-        self.total_items = data.get('total_items', None)
+        self.total_items = data.get('total_items') or data.get('count') or len(data.get('items'))
         self.items_per_page = data.get('items_per_page', None)
         self.url = data.get('url', None)
         self.items = data.get('items', [])
-
-        return self
 
