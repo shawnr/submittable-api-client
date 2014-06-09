@@ -34,4 +34,23 @@ module available here: http://docs.python-requests.org/
 
 Usage
 -----
-Directions forthcoming.
+Load up an API client with credentials:
+
+    In [1]: from submittable_api_client import SubmittableAPIClient
+    In [2]: client = SubmittableAPIClient(username='you@example.com', apitoken='555')
+
+Note: you will need to use your own Submittable.com username and API Token.
+
+Once the client is created it can be used to make multiple calls to the
+Submittable.com API. Here are some examples of the calls that can be made:
+
+    In [3]: cats = client.categories()
+    https://api.submittable.com/v1/categories/
+    In [4]: cats.count
+    Out[4]: 2
+    In [5]: cats.items
+    Out[5]:
+    [{u'active': True, ... }, ...]
+
+Further documentation is available on the documents site:
+https://todo.readthedocs.org

@@ -263,7 +263,8 @@ class SubmittableAPIResponse():
         # Common fields returned by generally everything
         self.current_page = self.data.get('current_page', 0)
         self.total_pages = self.data.get('total_pages', )
-        self.total_items = self.data.get('total_items', None)
+        self.total_items = self.data.get(
+            'total_items', len(self.data.get('items', [])))
         self.count = self.data.get('count', len(self.data.get('items', [])))
         self.items_per_page = self.data.get('items_per_page', 20)
         self.url = self.data.get('url', '')
