@@ -4,7 +4,8 @@
    contain the root `toctree` directive.
 
 Submittable API Client
-======================
+######################
+
 A Python client for the Submittable.com REST API.
 
 Submittable.com is a service that allows you to post application and
@@ -19,13 +20,13 @@ Submittable.com is currently read-only, so this client does not cover creating
 any data.
 
 Contents
---------
+========
 
 .. toctree::
    :maxdepth: 2
 
    quickstart_guide
-
+   code
 
 Indices and tables
 ==================
