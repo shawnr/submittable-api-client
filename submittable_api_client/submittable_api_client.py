@@ -175,7 +175,7 @@ class SubmittableAPIClient(object):
         :param status: Keyword for Status value to filter against.
         :type status: str
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of 
+        :returns: :class:`SubmittableAPIResponse` containing a list of
             content-specific objects and related metadata.
         """
         if not sort in ALLOWED_SORTS:
@@ -215,7 +215,7 @@ class SubmittableAPIClient(object):
         :param sub_id: ID of Submission object to retrieve.
         :type sub_id: int
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of 
+        :returns: :class:`SubmittableAPIResponse` containing a list of
             content-specific objects and related metadata.
         """
         if not sub_id:
@@ -234,7 +234,7 @@ class SubmittableAPIClient(object):
         :param sub_id: ID of Submission object to retrieve.
         :type sub_id: int
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of 
+        :returns: :class:`SubmittableAPIResponse` containing a list of
             content-specific objects and related metadata.
         """
         if not sub_id:
@@ -254,7 +254,7 @@ class SubmittableAPIClient(object):
         :param sub_id: ID of Submission object to retrieve.
         :type sub_id: int
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of 
+        :returns: :class:`SubmittableAPIResponse` containing a list of
             content-specific objects and related metadata.
         """
         if not sub_id:
@@ -276,7 +276,7 @@ class SubmittableAPIClient(object):
         :param file_guid: GUID for File object attached to Submission object.
         :type file_guid: str
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of 
+        :returns: :class:`SubmittableAPIResponse` containing a list of
             content-specific objects and related metadata.
         """
         if not sub_id:
@@ -300,7 +300,7 @@ class SubmittableAPIClient(object):
         :param sub_id: ID of Submission object to retrieve.
         :type sub_id: int
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of 
+        :returns: :class:`SubmittableAPIResponse` containing a list of
             content-specific objects and related metadata.
         """
         if not sub_id:
@@ -320,7 +320,7 @@ class SubmittableAPIClient(object):
         :param sub_id: ID of Submission object to retrieve.
         :type sub_id: int
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of 
+        :returns: :class:`SubmittableAPIResponse` containing a list of
             content-specific objects and related metadata
         """
         if not sub_id:
@@ -346,7 +346,7 @@ class SubmittableAPIClient(object):
         :param month: Numeric month (MM) value to filter against.
         :type month: int
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of 
+        :returns: :class:`SubmittableAPIResponse` containing a list of
             content-specific objects and related metadata.
         """
         if not year:
@@ -369,7 +369,7 @@ class SubmittableAPIClient(object):
         :param per_page: Number of items per page to return.
         :type per_page: int
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of 
+        :returns: :class:`SubmittableAPIResponse` containing a list of
             content-specific objects and related metadata.
         """
         query_uri = "%s%s?page=%s&count=%s" % (
