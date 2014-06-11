@@ -410,6 +410,12 @@ class SubmittableAPIResponse(object):
         self.items_per_page = self.data.get('items_per_page', 20)
         self.url = self.data.get('url', '')
         self.type = self.data.get('type', None)
+        self.submission_id = 0
+        self.labels = {}
+        self.blind_level = 0
+        self.blind_value = 0
+        self.time_created = None
+        self.files = []
 
         # Initialize items listing
         self.items = []
@@ -514,7 +520,6 @@ class SubmittableAPIResponse(object):
             self.data.get('assignments', {}))
         self.labels = LabelsContainer(self.data.get('labels', {}))
         self.form = SubmittedFormContainer(self.data.get('form', {}))
-        self.files = []
         for data in self.data.get('files'):
             self.files.append(File(data))
 
