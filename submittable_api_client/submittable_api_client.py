@@ -534,7 +534,7 @@ class Payment():
     def __init__(self, data):
         self.payment_id = data.get('payment_id', 0)
         self.time_created = time.strptime(
-            self.data.get('payment_date', "2014-05-21T11:58:57"),
+            data.get('payment_date', "2014-05-21T11:58:57"),
             "%Y-%m-%dT%I:%M:%S"
         )
         self.payment_date = datetime.fromtimestamp(
