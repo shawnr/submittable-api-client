@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 setup(
   name = 'submittable_api_client',
   packages = ['submittable_api_client'],
