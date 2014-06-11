@@ -8,7 +8,7 @@ setup(
   author = 'Shawn Rider',
   author_email = 'shawn@shawnrider.com',
   url = 'https://github.com/shawnr/submittable-api-client',
-  download_url = 'https://github.com/shawnr/submittable-api-client/archive/master.zip', # Update to release tag
+  download_url = 'https://github.com/shawnr/submittable-api-client/archive/0.1.zip', # Update to release tag
   keywords = ['API', 'REST', 'Submittable'],
   classifiers = [],
 )
