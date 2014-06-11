@@ -50,7 +50,7 @@ ALLOWED_STATUSES = [
 ]
 
 
-class SubmittableAPIClient():
+class SubmittableAPIClient(object):
     """
     The primary class instantiated to make an API call.
 
@@ -61,8 +61,8 @@ class SubmittableAPIClient():
     :param per_page: Per page item limit (defaults to 20)
     :type per_page: int
 
-    :returns: :class:`SubmittableAPIResponse` containing a list of content-specific
-        objects and related metadata.
+    :returns: :class:`SubmittableAPIResponse` containing a list of
+        content-specific objects and related metadata.
     """
 
     def __init__(self, username=None, apitoken=None, per_page=20):
@@ -77,8 +77,8 @@ class SubmittableAPIClient():
         """
         Returns a list of Categories. Allows no pagination.
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of content-specific
-            objects and related metadata.
+        :returns: :class:`SubmittableAPIResponse` containing a list of
+            content-specific objects and related metadata.
         """
 
         query_uri = "%s%s" % (BASE_API_URI, CATEGORIES_URI)
@@ -94,8 +94,8 @@ class SubmittableAPIClient():
         :param cat_id: ID of Category
         :type cat_id: int
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of content-specific
-            objects and related metadata.
+        :returns: :class:`SubmittableAPIResponse` containing a list of
+            content-specific objects and related metadata.
         """
         if not cat_id:
             raise Exception('No Category ID specified.')
@@ -113,8 +113,8 @@ class SubmittableAPIClient():
         :param cat_id: ID of Category
         :type cat_id: int
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of content-specific
-            objects and related metadata.
+        :returns: :class:`SubmittableAPIResponse` containing a list of
+            content-specific objects and related metadata.
         """
         if not cat_id:
             raise Exception('No Category ID specified.')
@@ -123,7 +123,8 @@ class SubmittableAPIClient():
         print query_uri
         response = requests.get(query_uri, auth=(self.username, self.apitoken))
 
-        return SubmittableAPIResponse(response=response, obj_type='category_form')
+        return SubmittableAPIResponse(
+            response=response, obj_type='category_form')
 
     def category_submitters(self, cat_id=None, page=None, per_page=None):
         """
@@ -136,8 +137,8 @@ class SubmittableAPIClient():
         :param per_page: Number of items per page to return.
         :type per_page: int
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of content-specific
-            objects and related metadata.
+        :returns: :class:`SubmittableAPIResponse` containing a list of
+            content-specific objects and related metadata.
         """
         if not cat_id:
             raise Exception('No Category ID specified.')
@@ -154,7 +155,9 @@ class SubmittableAPIClient():
         print query_uri
         response = requests.get(query_uri, auth=(self.username, self.apitoken))
 
-        return SubmittableAPIResponse(response=response, obj_type='category_submitters')
+        return SubmittableAPIResponse(
+            response=response, obj_type='category_submitters'
+        )
 
     def submissions(self, sort='submitted', direction='desc', page=1,
                     per_page=20, status='inprogress'):
@@ -172,8 +175,8 @@ class SubmittableAPIClient():
         :param status: Keyword for Status value to filter against.
         :type status: str
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of content-specific
-            objects and related metadata.
+        :returns: :class:`SubmittableAPIResponse` containing a list of 
+            content-specific objects and related metadata.
         """
         if not sort in ALLOWED_SORTS:
             raise Exception('Sort value not found: %s' % sort)
@@ -212,8 +215,8 @@ class SubmittableAPIClient():
         :param sub_id: ID of Submission object to retrieve.
         :type sub_id: int
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of content-specific
-            objects and related metadata.
+        :returns: :class:`SubmittableAPIResponse` containing a list of 
+            content-specific objects and related metadata.
         """
         if not sub_id:
             raise Exception('No Submission ID specified.')
@@ -231,8 +234,8 @@ class SubmittableAPIClient():
         :param sub_id: ID of Submission object to retrieve.
         :type sub_id: int
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of content-specific
-            objects and related metadata.
+        :returns: :class:`SubmittableAPIResponse` containing a list of 
+            content-specific objects and related metadata.
         """
         if not sub_id:
             raise Exception('No Submission ID specified.')
@@ -241,7 +244,8 @@ class SubmittableAPIClient():
         print query_uri
         response = requests.get(query_uri, auth=(self.username, self.apitoken))
 
-        return SubmittableAPIResponse(response=response, obj_type='submission_labels')
+        return SubmittableAPIResponse(
+            response=response, obj_type='submission_labels')
 
     def submission_history(self, sub_id=None):
         """
@@ -250,8 +254,8 @@ class SubmittableAPIClient():
         :param sub_id: ID of Submission object to retrieve.
         :type sub_id: int
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of content-specific
-            objects and related metadata.
+        :returns: :class:`SubmittableAPIResponse` containing a list of 
+            content-specific objects and related metadata.
         """
         if not sub_id:
             raise Exception('No Submission ID specified.')
@@ -260,7 +264,8 @@ class SubmittableAPIClient():
         print query_uri
         response = requests.get(query_uri, auth=(self.username, self.apitoken))
 
-        return SubmittableAPIResponse(response=response, obj_type='submission_history')
+        return SubmittableAPIResponse(
+            response=response, obj_type='submission_history')
 
     def submission_file(self, sub_id=None, file_guid=None):
         """
@@ -271,8 +276,8 @@ class SubmittableAPIClient():
         :param file_guid: GUID for File object attached to Submission object.
         :type file_guid: str
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of content-specific
-            objects and related metadata.
+        :returns: :class:`SubmittableAPIResponse` containing a list of 
+            content-specific objects and related metadata.
         """
         if not sub_id:
             raise Exception('No Submission ID specified.')
@@ -295,8 +300,8 @@ class SubmittableAPIClient():
         :param sub_id: ID of Submission object to retrieve.
         :type sub_id: int
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of content-specific
-            objects and related metadata.
+        :returns: :class:`SubmittableAPIResponse` containing a list of 
+            content-specific objects and related metadata.
         """
         if not sub_id:
             raise Exception('No Submission ID specified.')
@@ -305,7 +310,8 @@ class SubmittableAPIClient():
         print query_uri
         response = requests.get(query_uri, auth=(self.username, self.apitoken))
 
-        return SubmittableAPIResponse(response=response, obj_type='submission_form')
+        return SubmittableAPIResponse(
+            response=response, obj_type='submission_form')
 
     def submission_assignments(self, sub_id=None):
         """
@@ -314,8 +320,8 @@ class SubmittableAPIClient():
         :param sub_id: ID of Submission object to retrieve.
         :type sub_id: int
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of content-specific
-            objects and related metadata
+        :returns: :class:`SubmittableAPIResponse` containing a list of 
+            content-specific objects and related metadata
         """
         if not sub_id:
             raise Exception('No Submission ID specified.')
@@ -328,7 +334,8 @@ class SubmittableAPIClient():
         print query_uri
         response = requests.get(query_uri, auth=(self.username, self.apitoken))
 
-        return SubmittableAPIResponse(response=response, obj_type='submission_assignments')
+        return SubmittableAPIResponse(
+            response=response, obj_type='submission_assignments')
 
     def payments(self, year=None, month=None):
         """
@@ -339,8 +346,8 @@ class SubmittableAPIClient():
         :param month: Numeric month (MM) value to filter against.
         :type month: int
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of content-specific
-            objects and related metadata.
+        :returns: :class:`SubmittableAPIResponse` containing a list of 
+            content-specific objects and related metadata.
         """
         if not year:
             raise Exception('No Year specified.')
@@ -362,8 +369,8 @@ class SubmittableAPIClient():
         :param per_page: Number of items per page to return.
         :type per_page: int
 
-        :returns: :class:`SubmittableAPIResponse` containing a list of content-specific
-            objects and related metadata.
+        :returns: :class:`SubmittableAPIResponse` containing a list of 
+            content-specific objects and related metadata.
         """
         query_uri = "%s%s?page=%s&count=%s" % (
             BASE_API_URI,
@@ -377,7 +384,7 @@ class SubmittableAPIClient():
         return SubmittableAPIResponse(response=response, obj_type='submitters')
 
 
-class SubmittableAPIResponse():
+class SubmittableAPIResponse(object):
     """
     The response object from the Submittable API. Expects reponse from requests
     module.
@@ -503,7 +510,8 @@ class SubmittableAPIResponse():
         self.submitter = Submitter(self.data.get('submitter', {}))
         self.payment = Payment(self.data.get('payment', {}))
         self.votes = Votes(self.data.get('votes', {}))
-        self.assignments = AssignmentsContainer(self.data.get('assignments', {}))
+        self.assignments = AssignmentsContainer(
+            self.data.get('assignments', {}))
         self.labels = LablesContainer(self.data.get('labels', {}))
         self.form = SubmittedFormContainer(self.data.get('form', {}))
         self.files = []
@@ -524,7 +532,7 @@ class SubmittableAPIResponse():
             self.items.append(Submitter(data))
 
 
-class Payment():
+class Payment(object):
     """
     Representation of Payment as a Python object.
 
@@ -550,7 +558,7 @@ class Payment():
         self.submitter = Submitter(data.get('submitter', {}))
 
 
-class Submission():
+class Submission(object):
     """
     Representation of Submission as a Python object.
 
@@ -582,7 +590,7 @@ class Submission():
             self.files.append(File(data))
 
 
-class File():
+class File(object):
     """
     Representation of files container as a Python object.
 
@@ -597,7 +605,7 @@ class File():
         self.mime_type = data.get('mime_type', '')
         self.url = data.get('url', '')
 
-class Votes():
+class Votes(object):
     """
     Representation of Votes data as a Python object.
 
@@ -609,7 +617,7 @@ class Votes():
         self.score = data.get('score', 0)
         self.average = data.get('average', 0)
 
-class SubmissionLabel():
+class SubmissionLabel(object):
     """
     Representation of Submission Label as a Python object.
 
@@ -622,7 +630,7 @@ class SubmissionLabel():
         self.label_color2 = data.get('label_color2', '')
 
 
-class SubmissionHistory():
+class SubmissionHistory(object):
     """
     Representation of Submission History as a Python object.
 
@@ -642,7 +650,7 @@ class SubmissionHistory():
         self.user = Submitter(data.get('user', {}))
 
 
-class SubmittedFormContainer():
+class SubmittedFormContainer(object):
     """
     Representation of the Submitted Form container as a Python object.
 
@@ -658,7 +666,7 @@ class SubmittedFormContainer():
             self.items.append(SubmittedFormField(field_data))
 
 
-class SubmittedFormField():
+class SubmittedFormField(object):
     """
     Item container for a submitted form.
 
@@ -672,7 +680,7 @@ class SubmittedFormField():
         self.order = data.get('order', 0)
 
 
-class Submitter():
+class Submitter(object):
     """
     Item object container for Submitters.
 
@@ -686,7 +694,7 @@ class Submitter():
         self.email = data.get('email', '')
 
 
-class LabelsContainer():
+class LabelsContainer(object):
     """
     Representation of Labels Container as a Python object.
 
@@ -702,7 +710,7 @@ class LabelsContainer():
             self.items.append(SubmissionLabel(label))
 
 
-class AssignmentsContainer():
+class AssignmentsContainer(object):
     """
     Representation of Assignments Container as a Python object.
 
@@ -718,7 +726,7 @@ class AssignmentsContainer():
             self.items.append(Assignment(assignment))
 
 
-class Assignment():
+class Assignment(object):
     """
     Representation of Assignment as a Python object.
 
@@ -732,7 +740,7 @@ class Assignment():
         self.permission_value = data.get('permission_value', 0)
 
 
-class FormFieldContainer():
+class FormFieldContainer(object):
     """
     Representation of the formfields dictionary as a Python object.
 
@@ -748,7 +756,7 @@ class FormFieldContainer():
             self.items.append(FormFieldItem(field_data))
 
 
-class FormFieldItem():
+class FormFieldItem(object):
     """
     Representation of a formfield as a Python object.
 
@@ -763,7 +771,7 @@ class FormFieldItem():
         self.order = data.get('order', 0)
 
 
-class Category():
+class Category(object):
     """
     Item object container for Categories.
 
