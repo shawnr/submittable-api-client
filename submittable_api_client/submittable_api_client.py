@@ -15,6 +15,7 @@ import time
 try:
     import requests
 except ImportError:
+    # Don't we want to exit here, before blowing up later?
     print """
             Error - You must have the ``requests`` module installed in your
             Python path.
@@ -28,26 +29,26 @@ PAYMENTS_URI = "payments/"
 SUBMISSIONS_URI = "submissions/"
 SUBMITTERS_URI = "submitters/"
 
-ALLOWED_SORTS = [
+ALLOWED_SORTS = (
     'submitted',
     'category',
     'submitter',
-]
+)
 
-ALLOWED_DIRECTIONS = [
+ALLOWED_DIRECTIONS = (
     'desc',
     'asc'
-]
+)
 
 MAX_API_COUNT = 200
 
-ALLOWED_STATUSES = [
+ALLOWED_STATUSES = (
     'inprogress',
     'accepted',
     'declined',
     'completed',
     'withdrawn',
-]
+)
 
 
 class SubmittableAPIClient(object):
