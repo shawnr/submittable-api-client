@@ -53,4 +53,4 @@ Submittable.com API. Here are some examples of the calls that can be made:
     [{u'active': True, ... }, ...]
 
 Further documentation is available on the documents site:
-https://todo.readthedocs.org
+http://submittable-api-client.readthedocs.org/
