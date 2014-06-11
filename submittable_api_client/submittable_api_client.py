@@ -70,7 +70,7 @@ class SubmittableAPIClient(object):
             raise Exception('No username/apitoken credentials supplied.')
         self.username = username
         self.apitoken = apitoken
-        self.per_page = 20
+        self.per_page = per_page
         self.start_page = 1
 
     def categories(self):
@@ -512,7 +512,7 @@ class SubmittableAPIResponse(object):
         self.votes = Votes(self.data.get('votes', {}))
         self.assignments = AssignmentsContainer(
             self.data.get('assignments', {}))
-        self.labels = LablesContainer(self.data.get('labels', {}))
+        self.labels = LabelsContainer(self.data.get('labels', {}))
         self.form = SubmittedFormContainer(self.data.get('form', {}))
         self.files = []
         for data in self.data.get('files'):
@@ -583,7 +583,7 @@ class Submission(object):
         self.payment = Payment(data.get('payment', {}))
         self.votes = Votes(data.get('votes', {}))
         self.assignments = AssignmentsContainer(data.get('assignments', {}))
-        self.labels = LablesContainer(data.get('labels', {}))
+        self.labels = LabelsContainer(data.get('labels', {}))
         self.form = SubmittedFormContainer(data.get('form', {}))
         self.files = []
         for data in data.get('files'):
@@ -642,7 +642,8 @@ class SubmissionHistory(object):
         self.history_type = data.get('history_type', '')
         self.history_date = data.get('history_date', '2001-01-01')
         self.is_private = data.get('is_private', False)
-        self.is_visible_to_submitter = data.get('is_visible_to_submitter', False)
+        self.is_visible_to_submitter = \
+            data.get('is_visible_to_submitter', False)
         self.email_message = data.get('email_message', '')
         self.note = data.get('note', '')
         self.description = data.get('description', '')
