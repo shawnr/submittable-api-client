@@ -22,3 +22,45 @@ Item Objects
 
 .. autoclass:: Category
     :members:
+
+.. autoclass:: SubmittedFormContainer
+    :members:
+
+.. autoclass:: SubmissionHistory
+    :members:
+
+.. autoclass:: LabelsContainer
+    :members:
+
+.. autoclass:: SubmissionLabel
+    :members:
+
+.. autoclass:: Votes
+    :members:
+
+.. autoclass:: File
+    :members:
+
+.. autoclass:: Submission
+    :members:
+
+.. autoclass:: Payment
+    :members:
+
+.. autoclass:: SubmittedFormField
+    :members:
+
+.. autoclass:: Submitter
+    :members:
+
+.. autoclass:: AssignmentsContainer
+    :members:
+
+.. autoclass:: Assignment
+    :members:
+
+.. autoclass:: FormFieldContainer
+    :members:
+
+.. autoclass:: FormFieldItem
+    :members:

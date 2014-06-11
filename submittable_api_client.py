@@ -410,27 +410,27 @@ class SubmittableAPIResponse():
         if obj_type == 'category':
             self.provision_category()
         elif obj_type == 'categories':
-            self.provision_categories(self.data['items'])
+            self.provision_categories()
         elif obj_type == 'category_form':
             self.provision_category_form()
         elif obj_type == 'category_submitters':
-            self.provision_category_submitters(self.data['items'])
+            self.provision_category_submitters()
         elif obj_type == 'submission':
             self.provision_submission()
         elif obj_type == 'submissions':
             self.provision_submissions(self.data['items'])
         elif obj_type == 'submission_assignments':
-            self.provision_submission_assignments(self.data['items'])
+            self.provision_submission_assignments()
         elif obj_type == 'submission_history':
-            self.provision_submission_history(self.data['items'])
+            self.provision_submission_history()
         elif obj_type == 'submission_labels':
-            self.provision_submission_labels(self.data['items'])
+            self.provision_submission_labels()
         elif obj_type == 'submission_form':
             self.provision_submission_form()
         elif obj_type == 'payments':
-            self.provision_payments(self.data['items'])
+            self.provision_payments()
         elif obj_type == 'submitters':
-            self.provision_submitters(self.data['items'])
+            self.provision_submitters()
         else:
             raise Exception(
                 "Object type not recognized: %s" % obj_type
@@ -448,53 +448,319 @@ class SubmittableAPIResponse():
         self.expire_date = self.data.get('expire_date', None)
         self.active = self.data.get('active', False)
         self.order = self.data.get('order', 0)
-        self.formfields = self.data.get('formfields', [])
+        self.formfields = FormFieldContainer(self.data.get('formfields', {}))
 
-    def provision_categories(self, cat_data):
+    def provision_category_form(self):
+        """ Build category form objects. """
+        for data in self.data.get('items', []):
+            self.items.append(FormFieldItem(data))
+
+    def provision_category_submitters(self):
+        """ Build category form objects. """
+        for data in self.data.get('items', []):
+            self.items.append(Submitter(data))
+
+    def provision_categories(self):
         """ Build Category-specific metadata and item objects. """
-        for cat_data in self.data.get('items', []):
-            self.items.append(Category(cat_data))
+        for data in self.data.get('items', []):
+            self.items.append(Category(data))
 
-    def provision_submission(self, submission_data):
+    def provision_submission_assignments(self):
+        """ Build Assignment-specific metadata and item objects. """
+        for data in self.data.get('items', []):
+            self.items.append(Assignment(data))
+
+    def provision_submission_form(self):
+        """ Build submitted form-specific metadata and item objects. """
+        for data in self.data.get('items', []):
+            self.items.append(SubmittedFormField(data))
+
+    def provision_submission_history(self):
+        """ Build submission history metadata and item objects. """
+        for data in self.data.get('items', []):
+            self.items.append(SubmissionHistory(data))
+
+    def provision_submission_labels(self):
+        """ Build submission label metadata and item objects. """
+        for data in self.data.get('items', []):
+            self.items.append(SubmissionLabel(data))
+
+    def provision_submission(self):
         """ Build Submission-specific metadata and item objects. """
         self.submission_id = self.data.get('submission_id', 0)
-        self.submission_time_created = time.strptime(
+        self.time_created = time.strptime(
             self.data.get('date_created', "2014-05-21T11:58:57"),
             "%Y-%m-%dT%I:%M:%S"
         )
-        self.submission_date_created = datetime.fromtimestamp(
-            time.mktime(self.submission_time_created)
+        self.date_created = datetime.fromtimestamp(
+            time.mktime(self.time_created)
         )
         self.title = self.data.get('title', 'UNTITLED')
         self.file_id = self.data.get('file_id', 0)
-        self.status = self.data.get('status')
-        self.is_archived = self.data.get('is_archived')
-        self.category = self.data.get('category', {})
-        self.submitter = self.data.get('submitter', {})
-        self.payment = self.data.get('payment', {})
-        self.votes = self.data.get('votes', {})
-        self.assignments = self.data.get('assignments', {})
-        self.labels = self.data.get('labels', {})
-        self.form = self.data.get('form', {})
-        self.files = self.data.get('files', [])
+        self.status = self.data.get('status', '')
+        self.is_archived = self.data.get('is_archived', False)
+        self.category = Category(self.data.get('category', {}))
+        self.submitter = Submitter(self.data.get('submitter', {}))
+        self.payment = Payment(self.data.get('payment', {}))
+        self.votes = Votes(self.data.get('votes', {}))
+        self.assignments = AssignmentsContainer(self.data.get('assignments', {}))
+        self.labels = LablesContainer(self.data.get('labels', {}))
+        self.form = SubmittedFormContainer(self.data.get('form', {}))
+        self.files = []
+        for data in self.data.get('files'):
+            self.files.append(File(data))
 
-    def provision_payments(self, pay_data):
+    def provision_submissions(self):
+        """ Build submission listing metadata and item objects. """
+
+    def provision_payments(self):
         """ Build Payment-specific metadata and item objects. """
-        self.payment_id = self.data.get('payment_id', 0)
-        self.payment_time_created = time.strptime(
+        for data in self.data.get('items', []):
+            self.items.append(Payment(data))
+
+    def provision_submitters(self):
+        """ Build Submitter-specific metadata and item objects. """
+        for data in self.data.get('items', []):
+            self.items.append(Submitter(data))
+
+
+class Payment():
+    """
+    Representation of Payment as a Python object.
+
+    :param data: Data dictionary in JSON format.
+    :type data: str
+    """
+    def __init__(self, data):
+        self.payment_id = data.get('payment_id', 0)
+        self.time_created = time.strptime(
             self.data.get('payment_date', "2014-05-21T11:58:57"),
             "%Y-%m-%dT%I:%M:%S"
         )
-        self.payment_date_created = datetime.fromtimestamp(
-            time.mktime(self.payment_time_created)
+        self.payment_date = datetime.fromtimestamp(
+            time.mktime(self.time_created)
         )
-        self.payment_amount = self.data.get('amount', 0.00)
-        self.payment_fee = self.data.get('fee', 0.00)
-        self.payment_refunded = self.data.get('refunded')
+        self.amount = data.get('amount', 0.00)
+        self.fee = data.get('fee', 0.00)
+        self.refunded = data.get('refunded', False)
+        self.category_id = data.get('category_id', 0)
+        self.submission_id = data.get('submission_id', 0)
+        self.description = data.get('description', '')
+        self.settled = data.get('settled', False)
+        self.submitter = Submitter(data.get('submitter', {}))
 
-    def provision_submitters(self, submitter_data):
-        """ Build Submitter-specific metadata and item objects. """
-        pass
+
+class Submission():
+    """
+    Representation of Submission as a Python object.
+
+    :param data: Data dictionary in JSON format.
+    :type data: str
+    """
+    def __init__(self, data):
+        self.submission_id = data.get('submission_id', 0)
+        self.time_created = time.strptime(
+            data.get('date_created', "2014-05-21T11:58:57"),
+            "%Y-%m-%dT%I:%M:%S"
+        )
+        self.date_created = datetime.fromtimestamp(
+            time.mktime(self.time_created)
+        )
+        self.title = data.get('title', 'UNTITLED')
+        self.file_id = data.get('file_id', 0)
+        self.status = data.get('status', '')
+        self.is_archived = data.get('is_archived', False)
+        self.category = Category(data.get('category', {}))
+        self.submitter = Submitter(data.get('submitter', {}))
+        self.payment = Payment(data.get('payment', {}))
+        self.votes = Votes(data.get('votes', {}))
+        self.assignments = AssignmentsContainer(data.get('assignments', {}))
+        self.labels = LablesContainer(data.get('labels', {}))
+        self.form = SubmittedFormContainer(data.get('form', {}))
+        self.files = []
+        for data in data.get('files'):
+            self.files.append(File(data))
+
+
+class File():
+    """
+    Representation of files container as a Python object.
+
+    :param data: Data dictionary in JSON format.
+    :type data: str
+    """
+    def __init__(self, data):
+        self.guid = data.get('guid', '')
+        self.file_name = data.get('file_name', '')
+        self.file_extension = data.get('file_extension', '')
+        self.file_size = data.get('file_size', '')
+        self.mime_type = data.get('mime_type', '')
+        self.url = data.get('url', '')
+
+class Votes():
+    """
+    Representation of Votes data as a Python object.
+
+    :param data: Data dictionary in JSON format.
+    :type data: str
+    """
+    def __init__(self, data):
+        self.count = data.get('count', 0)
+        self.score = data.get('score', 0)
+        self.average = data.get('average', 0)
+
+class SubmissionLabel():
+    """
+    Representation of Submission Label as a Python object.
+
+    :param data: Data dictionary in JSON format.
+    :type data: str
+    """
+    def __init__(self, data):
+        self.label_text = data.get('label_text', '')
+        self.label_color1 = data.get('label_color1', '')
+        self.label_color2 = data.get('label_color2', '')
+
+
+class SubmissionHistory():
+    """
+    Representation of Submission History as a Python object.
+
+    :param data: Data dictionary in JSON format.
+    :type data: str
+    """
+    def __init__(self, data):
+        self.submission_id = data.get('submission_id', 0)
+        self.history_type = data.get('history_type', '')
+        self.history_date = data.get('history_date', '2001-01-01')
+        self.is_private = data.get('is_private', False)
+        self.is_visible_to_submitter = data.get('is_visible_to_submitter', False)
+        self.email_message = data.get('email_message', '')
+        self.note = data.get('note', '')
+        self.description = data.get('description', '')
+        self.replace_data = data.get('replace_data', '')
+        self.user = Submitter(data.get('user', {}))
+
+
+class SubmittedFormContainer():
+    """
+    Representation of the Submitted Form container as a Python object.
+
+    :param data: Data dictionary in JSON format.
+    :type data: str
+    """
+    def __init__(self, data):
+        self.type = data.get('type', '')
+        self.url = data.get('url', '')
+        self.count = data.get('count', len(data.get('items', [])))
+        self.items = []
+        for field_data in data.get('items', []):
+            self.items.append(SubmittedFormField(field_data))
+
+
+class SubmittedFormField():
+    """
+    Item container for a submitted form.
+
+    :param data: Data dictionary in JSON format.
+    :type data: str
+    """
+    def __init__(self, data):
+        self.label = data.get('label', '')
+        self.data = data.get('data', '')
+        self.blind = data.get('blind', False)
+        self.order = data.get('order', 0)
+
+
+class Submitter():
+    """
+    Item object container for Submitters.
+
+    :param data: Data dictionary in JSON format.
+    :type data: str
+    """
+    def __init__(self, data):
+        self.user_id = data.get('user_id', 0)
+        self.first_name = data.get('first_name', '')
+        self.last_name = data.get('last_name', '')
+        self.email = data.get('email', '')
+
+
+class LabelsContainer():
+    """
+    Representation of Labels Container as a Python object.
+
+    :param data: Data dictionary in JSON format.
+    :type data: str
+    """
+    def __init__(self, data):
+        self.type = data.get('type', '')
+        self.url = data.get('url', '')
+        self.count = data.get('count', 0)
+        self.items = []
+        for label in data.get('items', []):
+            self.items.append(SubmissionLabel(label))
+
+
+class AssignmentsContainer():
+    """
+    Representation of Assignments Container as a Python object.
+
+    :param data: Data dictionary in JSON format.
+    :type data: str
+    """
+    def __init__(self, data):
+        self.type = data.get('type', '')
+        self.url = data.get('url', '')
+        self.count = data.get('count', 0)
+        self.items = []
+        for assignment in data.get('items', []):
+            self.items.append(Assignment(assignment))
+
+
+class Assignment():
+    """
+    Representation of Assignment as a Python object.
+
+    :param data: Data dictionary in JSON format.
+    :type data: str
+    """
+    def __init__(self, data):
+        self.user_id = data.get('user_id', 0)
+        self.staff_name = data.get('staff_name', '')
+        self.permission_level = data.get('permission_level', '')
+        self.permission_value = data.get('permission_value', 0)
+
+
+class FormFieldContainer():
+    """
+    Representation of the formfields dictionary as a Python object.
+
+    :param data: Data dictionary in JSON format.
+    :type data: str
+    """
+    def __init__(self, data):
+        self.type = data.get('type', '')
+        self.url = data.get('url', '')
+        self.count = data.get('count', len(data.get('items', [])))
+        self.items = []
+        for field_data in data.get('items', []):
+            self.items.append(FormFieldItem(field_data))
+
+
+class FormFieldItem():
+    """
+    Representation of a formfield as a Python object.
+
+    :param data: Data dictionary in JSON format.
+    :type data: str
+    """
+    def __init__(self, data):
+        self.label = data.get('label', '')
+        self.description = data.get('description', '')
+        self.field_type = data.get('field_type', '')
+        self.blind = data.get('blind', False)
+        self.order = data.get('order', 0)
 
 
 class Category():
@@ -503,8 +769,6 @@ class Category():
 
     :param data: Data dictionary in JSON format.
     :type data: str
-
-    :returns: None
     """
     def __init__(self, data):
         self.form_url = data.get('form_url', '')
