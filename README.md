@@ -36,7 +36,7 @@ Usage
 -----
 Load up an API client with credentials:
 
-    In [1]: from submittable_api_client import SubmittableAPIClient
+    In [1]: from submittable_api_client.submittable_api_client import SubmittableAPIClient
     In [2]: client = SubmittableAPIClient(username='you@example.com', apitoken='555')
 
 Note: you will need to use your own Submittable.com username and API Token.
