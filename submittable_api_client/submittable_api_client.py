@@ -414,8 +414,21 @@ class SubmittableAPIResponse(object):
         self.labels = {}
         self.blind_level = 0
         self.blind_value = 0
+        self.file_id = 0
         self.time_created = None
         self.files = []
+        self.votes = {}
+        self.payment = {}
+        self.submitter = {}
+        self.category = {}
+        self.title = 'UNTITLED'
+        self.start_date = None
+        self.expire_date = None
+        self.date_created = None
+        self.status = ''
+        self.form_url = ''
+        self.category_id = 0
+        self.assignments = None
 
         # Initialize items listing
         self.items = []
@@ -457,6 +470,8 @@ class SubmittableAPIResponse(object):
         self.description = self.data.get('description', '')
         self.blind_level = self.data.get('blind_level', 0)
         self.blind_value = self.data.get('blind_value', 0)
+        # TODO: do these return KeyError, None, or '' if no value?
+        # Maybe use try/except.
         self.start_date = self.data.get('start_date', None)
         self.expire_date = self.data.get('expire_date', None)
         self.active = self.data.get('active', False)
@@ -508,6 +523,8 @@ class SubmittableAPIResponse(object):
         self.date_created = datetime.fromtimestamp(
             time.mktime(self.time_created)
         )
+        # TODO: find out if no data will cause a KeyError or
+        # "falsy" value, then consider try/except KeyError.
         self.title = self.data.get('title', 'UNTITLED')
         self.file_id = self.data.get('file_id', 0)
         self.status = self.data.get('status', '')
