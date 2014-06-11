@@ -418,7 +418,7 @@ class SubmittableAPIResponse():
         elif obj_type == 'submission':
             self.provision_submission()
         elif obj_type == 'submissions':
-            self.provision_submissions(self.data['items'])
+            self.provision_submissions()
         elif obj_type == 'submission_assignments':
             self.provision_submission_assignments()
         elif obj_type == 'submission_history':
@@ -504,7 +504,7 @@ class SubmittableAPIResponse():
         self.payment = Payment(self.data.get('payment', {}))
         self.votes = Votes(self.data.get('votes', {}))
         self.assignments = AssignmentsContainer(self.data.get('assignments', {}))
-        self.labels = LablesContainer(self.data.get('labels', {}))
+        self.labels = LabelsContainer(self.data.get('labels', {}))
         self.form = SubmittedFormContainer(self.data.get('form', {}))
         self.files = []
         for data in self.data.get('files'):
@@ -575,7 +575,7 @@ class Submission():
         self.payment = Payment(data.get('payment', {}))
         self.votes = Votes(data.get('votes', {}))
         self.assignments = AssignmentsContainer(data.get('assignments', {}))
-        self.labels = LablesContainer(data.get('labels', {}))
+        self.labels = LabelsContainer(data.get('labels', {}))
         self.form = SubmittedFormContainer(data.get('form', {}))
         self.files = []
         for data in data.get('files'):
