@@ -12,14 +12,7 @@ http://docs.python-requests.org/
 from datetime import datetime
 import time
 
-try:
-    import requests
-except ImportError:
-    print """
-            Error - You must have the ``requests`` module installed in your
-            Python path.
-          """
-    raise
+import requests
 
 # Prevent import * from importing all our "local" globals and imports.
 __all__ = (
@@ -552,6 +545,8 @@ class SubmittableAPIResponse(object):
 
     def provision_submissions(self):
         """ Build submission listing metadata and item objects. """
+        for data in self.data.get('items', []):
+            self.items.append(Submission(data))
 
     def provision_payments(self):
         """ Build Payment-specific metadata and item objects. """
