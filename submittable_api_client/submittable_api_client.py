@@ -21,6 +21,15 @@ except ImportError:
             Python path.
           """
 
+# Prevent import * from importing all our "local" globals and imports.
+__all__ = (
+    'Assignment', 'AssignmentsContainer', 'Category', 'File',
+    'FormFieldContainer', 'FormFieldItem', 'LabelsContainer',
+    'Payment', 'Submission', 'SubmissionHistory', 'SubmissionLabel',
+    'SubmittableAPIClient', 'SubmittableAPIResponse', 'SubmittedFormContainer', 
+    'SubmittedFormField', 'Submitter', 'Votes',
+)
+
 BASE_API_URI = "https://api.submittable.com/v1/"
 CATEGORIES_URI = "categories/"
 ORGANIZATION_URI = "organization/"  # This is currently not implemented due to
