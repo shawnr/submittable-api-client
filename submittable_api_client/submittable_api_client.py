@@ -15,11 +15,11 @@ import time
 try:
     import requests
 except ImportError:
-    # Don't we want to exit here, before blowing up later?
     print """
             Error - You must have the ``requests`` module installed in your
             Python path.
           """
+    raise
 
 # Prevent import * from importing all our "local" globals and imports.
 __all__ = (
