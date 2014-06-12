@@ -26,7 +26,7 @@ __all__ = (
     'Assignment', 'AssignmentsContainer', 'Category', 'File',
     'FormFieldContainer', 'FormFieldItem', 'LabelsContainer',
     'Payment', 'Submission', 'SubmissionHistory', 'SubmissionLabel',
-    'SubmittableAPIClient', 'SubmittableAPIResponse', 'SubmittedFormContainer', 
+    'SubmittableAPIClient', 'SubmittableAPIResponse', 'SubmittedFormContainer',
     'SubmittedFormField', 'Submitter', 'Votes',
 )
 
