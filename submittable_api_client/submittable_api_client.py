@@ -15,10 +15,20 @@ import time
 try:
     import requests
 except ImportError:
+    # Don't we want to exit here, before blowing up later?
     print """
             Error - You must have the ``requests`` module installed in your
             Python path.
           """
+
+# Prevent import * from importing all our "local" globals and imports.
+__all__ = (
+    'Assignment', 'AssignmentsContainer', 'Category', 'File',
+    'FormFieldContainer', 'FormFieldItem', 'LabelsContainer',
+    'Payment', 'Submission', 'SubmissionHistory', 'SubmissionLabel',
+    'SubmittableAPIClient', 'SubmittableAPIResponse', 'SubmittedFormContainer',
+    'SubmittedFormField', 'Submitter', 'Votes',
+)
 
 BASE_API_URI = "https://api.submittable.com/v1/"
 CATEGORIES_URI = "categories/"
@@ -28,26 +38,26 @@ PAYMENTS_URI = "payments/"
 SUBMISSIONS_URI = "submissions/"
 SUBMITTERS_URI = "submitters/"
 
-ALLOWED_SORTS = [
+ALLOWED_SORTS = (
     'submitted',
     'category',
     'submitter',
-]
+)
 
-ALLOWED_DIRECTIONS = [
+ALLOWED_DIRECTIONS = (
     'desc',
     'asc'
-]
+)
 
 MAX_API_COUNT = 200
 
-ALLOWED_STATUSES = [
+ALLOWED_STATUSES = (
     'inprogress',
     'accepted',
     'declined',
     'completed',
     'withdrawn',
-]
+)
 
 
 class SubmittableAPIClient(object):
@@ -410,6 +420,25 @@ class SubmittableAPIResponse(object):
         self.items_per_page = self.data.get('items_per_page', 20)
         self.url = self.data.get('url', '')
         self.type = self.data.get('type', None)
+        self.submission_id = 0
+        self.labels = {}
+        self.blind_level = 0
+        self.blind_value = 0
+        self.file_id = 0
+        self.time_created = None
+        self.files = []
+        self.votes = {}
+        self.payment = {}
+        self.submitter = {}
+        self.category = {}
+        self.title = 'UNTITLED'
+        self.start_date = None
+        self.expire_date = None
+        self.date_created = None
+        self.status = ''
+        self.form_url = ''
+        self.category_id = 0
+        self.assignments = None
 
         # Initialize items listing
         self.items = []
@@ -451,6 +480,8 @@ class SubmittableAPIResponse(object):
         self.description = self.data.get('description', '')
         self.blind_level = self.data.get('blind_level', 0)
         self.blind_value = self.data.get('blind_value', 0)
+        # TODO: do these return KeyError, None, or '' if no value?
+        # Maybe use try/except.
         self.start_date = self.data.get('start_date', None)
         self.expire_date = self.data.get('expire_date', None)
         self.active = self.data.get('active', False)
@@ -502,6 +533,8 @@ class SubmittableAPIResponse(object):
         self.date_created = datetime.fromtimestamp(
             time.mktime(self.time_created)
         )
+        # TODO: find out if no data will cause a KeyError or
+        # "falsy" value, then consider try/except KeyError.
         self.title = self.data.get('title', 'UNTITLED')
         self.file_id = self.data.get('file_id', 0)
         self.status = self.data.get('status', '')
@@ -514,7 +547,6 @@ class SubmittableAPIResponse(object):
             self.data.get('assignments', {}))
         self.labels = LabelsContainer(self.data.get('labels', {}))
         self.form = SubmittedFormContainer(self.data.get('form', {}))
-        self.files = []
         for data in self.data.get('files'):
             self.files.append(File(data))
 
