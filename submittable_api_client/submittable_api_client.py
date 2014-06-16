@@ -45,6 +45,7 @@ ALLOWED_DIRECTIONS = (
 MAX_API_COUNT = 200
 
 ALLOWED_STATUSES = (
+    'new',
     'inprogress',
     'accepted',
     'declined',
