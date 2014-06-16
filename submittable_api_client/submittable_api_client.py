@@ -181,13 +181,13 @@ class SubmittableAPIClient(object):
         :returns: :class:`SubmittableAPIResponse` containing a list of
             content-specific objects and related metadata.
         """
-        if not sort in ALLOWED_SORTS:
+        if sort not in ALLOWED_SORTS:
             raise Exception('Sort value not found: %s' % sort)
 
-        if not direction in ALLOWED_DIRECTIONS:
+        if direction not in ALLOWED_DIRECTIONS:
             raise Exception('Direction value not found: %s' % direction)
 
-        if not status in ALLOWED_STATUSES:
+        if status not in ALLOWED_STATUSES:
             raise Exception('Status value not found: %s' % status)
 
         if per_page > 200:
@@ -607,10 +607,23 @@ class Submission(object):
         self.is_archived = data.get('is_archived', False)
         self.category = Category(data.get('category', {}))
         self.submitter = Submitter(data.get('submitter', {}))
-        self.payment = Payment(data.get('payment', {}))
-        self.votes = Votes(data.get('votes', {}))
-        self.assignments = AssignmentsContainer(data.get('assignments', {}))
-        self.labels = LabelsContainer(data.get('labels', {}))
+        if data.get('payment'):
+            self.payment = Payment(data.get('payment', {}))
+        else:
+            self.payment = None
+        if data.get('votes'):
+            self.votes = Votes(data.get('votes', {}))
+        else:
+            self.votes = None
+        if data.get('assignments'):
+            self.assignments = AssignmentsContainer(
+                data.get('assignments', {}))
+        else:
+            self.assignments = None
+        if data.get('labels'):
+            self.labels = LabelsContainer(data.get('labels', {}))
+        else:
+            self.labels = None
         self.form = SubmittedFormContainer(data.get('form', {}))
         self.files = []
         for data in data.get('files'):
@@ -632,6 +645,7 @@ class File(object):
         self.mime_type = data.get('mime_type', '')
         self.url = data.get('url', '')
 
+
 class Votes(object):
     """
     Representation of Votes data as a Python object.
@@ -643,6 +657,7 @@ class Votes(object):
         self.count = data.get('count', 0)
         self.score = data.get('score', 0)
         self.average = data.get('average', 0)
+
 
 class SubmissionLabel(object):
     """
