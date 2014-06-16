@@ -522,7 +522,7 @@ class SubmittableAPIResponse(object):
         self.submission_id = self.data.get('submission_id', 0)
         self.time_created = time.strptime(
             self.data.get('date_created', "2014-05-21T11:58:57"),
-            "%Y-%m-%dT%I:%M:%S"
+            "%Y-%m-%dT%H:%M:%S"
         )
         self.date_created = datetime.fromtimestamp(
             time.mktime(self.time_created)
@@ -571,7 +571,7 @@ class Payment(object):
         self.payment_id = data.get('payment_id', 0)
         self.time_created = time.strptime(
             data.get('payment_date', "2014-05-21T11:58:57"),
-            "%Y-%m-%dT%I:%M:%S"
+            "%Y-%m-%dT%H:%M:%S"
         )
         self.payment_date = datetime.fromtimestamp(
             time.mktime(self.time_created)
@@ -597,7 +597,7 @@ class Submission(object):
         self.submission_id = data.get('submission_id', 0)
         self.time_created = time.strptime(
             data.get('date_created', "2014-05-21T11:58:57"),
-            "%Y-%m-%dT%I:%M:%S"
+            "%Y-%m-%dT%H:%M:%S"
         )
         self.date_created = datetime.fromtimestamp(
             time.mktime(self.time_created)
