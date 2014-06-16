@@ -11,5 +11,6 @@ setup(
     download_url="""
         https://github.com/shawnr/submittable-api-client/archive/0.4.zip""",
     keywords=['API', 'REST', 'Submittable'],
+    install_requires=['requests'],
     classifiers=[],
 )
