@@ -188,8 +188,15 @@ class SubmittableAPIClient(object):
         if direction not in ALLOWED_DIRECTIONS:
             raise Exception('Direction value not found: %s' % direction)
 
-        if status not in ALLOWED_STATUSES:
-            raise Exception('Status value not found: %s' % status)
+        # Allow for status to be combined in multiple ways.
+        # Provide a shortcut for pulling 'all' statuses.
+        if status == 'all':
+            status_list = ALLOWED_STATUSES
+        else:
+            status_list = status.split(',')
+        for val in status_list:
+            if val not in ALLOWED_STATUSES:
+                raise Exception('Status value not found: %s' % status)
 
         if per_page > 200:
             print """
