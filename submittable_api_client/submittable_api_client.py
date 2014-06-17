@@ -205,6 +205,7 @@ class SubmittableAPIClient(object):
                 """
             per_page = 200
 
+        status_qstring = ",".join(status_list)
         query_uri = "%s%s?sort=%s&dir=%s&page=%s&count=%s&status=%s" % (
             BASE_API_URI,
             SUBMISSIONS_URI,
@@ -212,7 +213,7 @@ class SubmittableAPIClient(object):
             direction,
             page,
             per_page,
-            status,
+            status_qstring,
         )
         print query_uri
         response = requests.get(query_uri, auth=(self.username, self.apitoken))
